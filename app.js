@@ -4342,21 +4342,31 @@
     // PWA Install Prompt
     let deferredInstallPrompt = null;
     const installPwaBtn = document.getElementById('installPwaBtn');
+    const navInstallBtn = document.getElementById('navInstallBtn');
+
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();
       deferredInstallPrompt = e;
       if (installPwaBtn) installPwaBtn.classList.remove('hidden');
+      if (navInstallBtn) navInstallBtn.classList.remove('hidden');
     });
 
-    if (installPwaBtn) {
-      installPwaBtn.addEventListener('click', async () => {
-        if (!deferredInstallPrompt) return;
+    const triggerPwaInstall = async () => {
+      if (deferredInstallPrompt) {
         deferredInstallPrompt.prompt();
-        await deferredInstallPrompt.userChoice;
-        deferredInstallPrompt = null;
-        installPwaBtn.classList.add('hidden');
-      });
-    }
+        const choice = await deferredInstallPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          deferredInstallPrompt = null;
+          if (installPwaBtn) installPwaBtn.classList.add('hidden');
+          if (navInstallBtn) navInstallBtn.classList.add('hidden');
+        }
+      } else {
+        showToast('En el menú de Chrome (⋮) toca "Agregar a la pantalla principal" o "Instalar"');
+      }
+    };
+
+    if (installPwaBtn) installPwaBtn.addEventListener('click', triggerPwaInstall);
+    if (navInstallBtn) navInstallBtn.addEventListener('click', triggerPwaInstall);
 
     // Close modals
     document.querySelectorAll('[data-close-modal]').forEach(btn => {
