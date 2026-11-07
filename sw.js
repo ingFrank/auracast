@@ -1,4 +1,4 @@
-const CACHE_NAME = 'auracast-v19';
+const CACHE_NAME = 'auracast-v21';
 const APP_SHELL = [
   './',
   './index.html',

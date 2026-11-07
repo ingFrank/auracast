@@ -7,7 +7,7 @@
   const STORAGE_PROGRESS_KEY = 'auracast_progress_v1';
   const STORAGE_LAST_PLAYED_KEY = 'auracast_last_played_v1';
   const STORAGE_SETTINGS_KEY = 'auracast_settings_v1';
-  const STORAGE_CACHED_CATALOG_KEY = 'auracast_cached_catalog_v1';
+  const STORAGE_CACHED_CATALOG_KEY = 'auracast_cached_catalog_empty_v2';
   const STORAGE_OFFLINE_META_KEY = 'auracast_offline_meta_v2';
   const STORAGE_CUSTOM_FOLDERS_KEY = 'auracast_custom_folders_v2';
   const STORAGE_APPEARANCE_KEY = 'auracast_appearance_v1';
@@ -2603,16 +2603,16 @@
 
     if (filtered.length === 0) {
       topicsGrid.innerHTML = `
-        <div class="empty-state" style="grid-column: 1 / -1;">
-          <h3>No se encontraron temas en esta vista</h3>
-          <p>Agrega subcarpetas con audios dentro de la carpeta <strong>AUDIOS</strong> o toca <strong>Cargar Carpeta</strong> para elegir audios desde tu celular.</p>
-          <button class="btn-primary-gold" id="emptyLoadFolderBtn" style="max-width:260px;margin:0 auto;">
-            Cargar Carpeta o Audios
+        <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 48px 16px;">
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Tu biblioteca está vacía</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px;">Crea tu primera carpeta para organizar y guardar tus audios.</p>
+          <button class="btn-primary" id="emptyCreateTopicBtn" style="max-width:240px; margin: 0 auto; display: inline-flex;">
+            + Crear nueva carpeta
           </button>
         </div>
       `;
-      const btn = document.getElementById('emptyLoadFolderBtn');
-      if (btn) btn.addEventListener('click', () => openModal('importModal'));
+      const btn = document.getElementById('emptyCreateTopicBtn');
+      if (btn) btn.addEventListener('click', () => promptCreateNewFolder());
       return;
     }
 
